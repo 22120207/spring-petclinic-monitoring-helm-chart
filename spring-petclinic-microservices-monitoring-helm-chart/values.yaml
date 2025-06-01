@@ -1,0 +1,69 @@
+namespace: monitoring
+
+images:
+  genaiService:
+    repository: registry.caotienminh.software/springcommunity/spring-petclinic-genai-service
+    tag: latest
+  adminServer:
+    repository: registry.caotienminh.software/springcommunity/spring-petclinic-admin-server
+    tag: latest
+  customersService:
+    repository: registry.caotienminh.software/springcommunity/spring-petclinic-customers-service
+    tag: latest
+  vetsService:
+    repository: registry.caotienminh.software/springcommunity/spring-petclinic-vets-service
+    tag: latest
+  visitsService:
+    repository: registry.caotienminh.software/springcommunity/spring-petclinic-visits-service
+    tag: latest
+  apiGateway: 
+    repository: registry.caotienminh.software/springcommunity/spring-petclinic-api-gateway
+    tag: latest
+  discoveryServer:
+    repository: registry.caotienminh.software/springcommunity/spring-petclinic-discovery-server
+    tag: latest
+  configServer: 
+    repository: registry.caotienminh.software/springcommunity/spring-petclinic-config-server
+    tag: latest
+  tracingServer:
+    repository: registry.caotienminh.software/springcommunity/zipkin-server
+    tag: latest
+  prometheusServer:
+    repository: registry.caotienminh.software/springcommunity/prometheus-server
+    tag: latest
+  grafanaServer:
+    repository: registry.caotienminh.software/springcommunity/grafana-server
+    tag: latest
+
+imagePullSecrets:
+  name: regcred
+
+config:
+  discoveryServer:
+    url: http://discovery-server:8761
+  configServer: 
+    url: http://config-server:8888
+
+hostname:
+  genaiService:
+    name: genai-service
+  adminServer:
+    name: admin-server
+  customersService:
+    name: customers-service
+  vetsService:
+    name: vets-service
+  visitsService:
+    name: visits-service
+  apiGateway: 
+    name: api-gateway
+  discoveryServer:
+    name: discovery-server
+  configServer: 
+    name: config-server
+  tracingServer: 
+    name: tracing-server
+  prometheusServer:
+    name: prometheus-server
+  grafanaServer:
+    name: grafana-server
