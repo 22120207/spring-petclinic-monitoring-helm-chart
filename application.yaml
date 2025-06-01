@@ -17,9 +17,6 @@ spec:
     namespace: monitoring
   syncPolicy:
     automated:
-      prune: true
       selfHeal: true
-      prunePropagationPolicy: Foreground
     syncOptions:
       - CreateNamespace=true
-      - PruneLast=true
