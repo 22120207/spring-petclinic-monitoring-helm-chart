@@ -1,25 +1,22 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: {{ .Values.hostname.grafanaServer.name }}
-  labels:
-    app: {{ .Values.hostname.grafanaServer.name }}
+  name: grafana
   namespace: {{ .Values.namespace }}
 spec:
+  serviceName: grafana
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Values.hostname.grafanaServer.name }}
+      app: grafana
   template:
     metadata:
-      name: {{ .Values.hostname.grafanaServer.name }}
       labels:
-        app: {{ .Values.hostname.grafanaServer.name }}
+        app: grafana
     spec:
       containers:
-        - name: {{ .Values.hostname.grafanaServer.name }}
-          image: "{{ .Values.images.grafanaServer.repository }}:{{ .Values.images.grafanaServer.tag }}"
-          imagePullPolicy: Always
+        - name: grafana
+          image: grafana/grafana:latest
           ports:
             - containerPort: 3000
           env:
@@ -34,18 +31,18 @@ spec:
       volumes:
         - name: grafana-storage
           emptyDir: {}
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.hostname.grafanaServer.name }}
+  name: grafana-nodeport
   namespace: {{ .Values.namespace }}
 spec:
   type: NodePort
   selector:
-    app: {{ .Values.hostname.grafanaServer.name }}
+    app: grafana
   ports:
-    - name: {{ .Values.hostname.grafanaServer.name }}-port
-      protocol: TCP
-      port: 3030
+    - protocol: TCP
+      port: 3000
       targetPort: 3000
