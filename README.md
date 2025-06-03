@@ -1,1 +1,1 @@
-﻿# spring-petclinic-microservices-monitorinig-helm-chart
+﻿# spring-petclinic-monitorinig-helm-chart
