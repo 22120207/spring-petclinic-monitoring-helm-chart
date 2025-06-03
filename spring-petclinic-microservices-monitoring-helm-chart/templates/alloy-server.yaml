@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: alloy-config
-  namespace: monitoring
+  name: {{ .Values.hostname.alloyServer.name }}-configmap
+  namespace: {{ .Values.namespace }}
 data:
   config.alloy: |
     logging {
@@ -66,7 +66,7 @@ data:
     }
     loki.write "loki" {
       endpoint {
-        url = "http://loki:3100/loki/api/v1/push"
+        url = "http://{{ .Values.hostname.lokiServer.name }}:3100/loki/api/v1/push"
       }
     }
 
@@ -74,7 +74,7 @@ data:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: alloy-clusterrole
+  name: {{ .Values.hostname.alloyServer.name }}-clusterrole
 rules:
   - apiGroups: [""]
     resources:
@@ -91,41 +91,41 @@ rules:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: alloy-serviceaccount
-  namespace: monitoring
+  name: {{ .Values.hostname.alloyServer.name }}-serviceaccount
+  namespace: {{ .Values.namespace }}
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: alloy-clusterrolebinding
+  name: {{ .Values.hostname.alloyServer.name }}-clusterrolebinding
 subjects:
   - kind: ServiceAccount
-    name: alloy-serviceaccount
-    namespace: monitoring
+    name: {{ .Values.hostname.alloyServer.name }}-serviceaccount
+    namespace: {{ .Values.namespace }}
 roleRef:
   kind: ClusterRole
-  name: alloy-clusterrole
+  name: {{ .Values.hostname.alloyServer.name }}-clusterrole
   apiGroup: rbac.authorization.k8s.io
 
 ---
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: alloy
-  namespace: monitoring
+  name: {{ .Values.hostname.alloyServer.name }}
+  namespace: {{ .Values.namespace }}
 spec:
   selector:
     matchLabels:
-      app: alloy
+      app: {{ .Values.hostname.alloyServer.name }}
   template:
     metadata:
       labels:
-        app: alloy
+        app: {{ .Values.hostname.alloyServer.name }}
     spec:
-      serviceAccountName: alloy-serviceaccount
+      serviceAccountName: {{ .Values.hostname.alloyServer.name }}-serviceaccount
       containers:
-        - name: alloy
+        - name: {{ .Values.hostname.alloyServer.name }}
           image: grafana/alloy:latest
           args:
             - run
@@ -141,7 +141,7 @@ spec:
       volumes:
         - name: config
           configMap:
-            name: alloy-config
+            name: {{ .Values.hostname.alloyServer.name }}-configmap
         - name: varlog
           hostPath:
             path: /var/log
