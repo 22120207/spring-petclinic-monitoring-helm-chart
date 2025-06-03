@@ -57,7 +57,7 @@ spec:
                   key: admin-password
           volumeMounts:
             - name: {{ .Values.hostname.grafanaServer.name }}-storage
-              mountPath: /var/lib/grafanana
+              mountPath: /var/lib/grafana
             - name: {{ .Values.hostname.grafanaServer.name }}-datasources
               mountPath: /etc/grafana/provisioning/datasources
       volumes:
