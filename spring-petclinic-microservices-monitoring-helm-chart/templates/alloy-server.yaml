@@ -126,7 +126,7 @@ spec:
       serviceAccountName: {{ .Values.hostname.alloyServer.name }}-serviceaccount
       containers:
         - name: {{ .Values.hostname.alloyServer.name }}
-          image: grafana/alloy:latest
+          image: "{{ .Values.images.alloyServer.repository }}:{{ .Values.images.alloyServer.tag }}"
           args:
             - run
             - /etc/alloy/config.alloy
