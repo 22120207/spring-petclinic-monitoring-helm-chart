@@ -81,6 +81,7 @@ rules:
       - nodes
       - services
       - pods
+      - pods/log
     verbs:
       - get
       - watch
