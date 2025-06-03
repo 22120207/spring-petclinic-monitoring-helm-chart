@@ -134,6 +134,7 @@ spec:
           image: grafana/alloy:latest
           args:
             - run
+            - --config
             - /etc/alloy/config.alloy
           volumeMounts:
             - name: config
