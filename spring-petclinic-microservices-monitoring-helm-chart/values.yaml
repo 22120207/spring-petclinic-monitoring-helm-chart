@@ -32,7 +32,7 @@ images:
     repository: registry.caotienminh.software/springcommunity/prometheus-server
     tag: latest
   grafanaServer:
-    repository: registry.caotienminh.software/springcommunity/grafana-server
+    repository: grafana/grafana
     tag: latest
   lokiServer:
     repository: docker.io/grafana/loki
