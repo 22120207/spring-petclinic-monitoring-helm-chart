@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
         - name: {{ .Values.hostname.lokiServer.name }}
-          image: docker.io/grafana/loki:2.9.6
+          image: "{{ .Values.images.lokiServer.repository }}:{{ .Values.images.lokiServer.tag }}"
           args:
             - -config.file=/etc/loki/local-config.yaml
           ports:
