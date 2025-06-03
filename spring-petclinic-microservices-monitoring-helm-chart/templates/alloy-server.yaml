@@ -119,8 +119,6 @@ kind: DaemonSet
 metadata:
   name: alloy
   namespace: monitoring
-  labels:
-    app: alloy
 spec:
   selector:
     matchLabels:
@@ -135,11 +133,11 @@ spec:
         - name: alloy
           image: grafana/alloy:latest
           args:
-            - "--config.file=/etc/alloy/config.alloy"
+            - run
+            - /etc/alloy/config.alloy
           volumeMounts:
             - name: config
               mountPath: /etc/alloy
-              readOnly: true
             - name: varlog
               mountPath: /var/log
             - name: dockercontainers
@@ -155,5 +153,3 @@ spec:
         - name: dockercontainers
           hostPath:
             path: /var/lib/docker/containers
-      tolerations:
-        - operator: "Exists"
