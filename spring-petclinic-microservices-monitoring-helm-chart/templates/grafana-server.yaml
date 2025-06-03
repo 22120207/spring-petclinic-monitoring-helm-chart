@@ -58,7 +58,7 @@ spec:
           volumeMounts:
             - name: {{ .Values.hostname.grafanaServer.name }}-storage
               mountPath: /var/lib/grafanana
-            - name: {{ .Values.hostname.grafanaServer.name }}-configmap
+            - name: {{ .Values.hostname.grafanaServer.name }}-datasources
               mountPath: /etc/grafana/provisioning/datasources
       volumes:
         - name: {{ .Values.hostname.grafanaServer.name }}-storage
