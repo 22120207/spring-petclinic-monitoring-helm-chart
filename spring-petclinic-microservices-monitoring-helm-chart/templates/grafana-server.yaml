@@ -1,47 +1,47 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ .Values.hostname.grafaServer.name }}
+  name: {{ .Values.hostname.grafanaServer.name }}
   namespace: {{ .Values.namespace }}
 spec:
-  serviceName: {{ .Values.hostname.grafaServer.name }}
+  serviceName: {{ .Values.hostname.grafanaServer.name }}
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Values.hostname.grafaServer.name }}
+      app: {{ .Values.hostname.grafanaServer.name }}
   template:
     metadata:
       labels:
-        app: {{ .Values.hostname.grafaServer.name }}
+        app: {{ .Values.hostname.grafanaServer.name }}
     spec:
       containers:
-        - name: {{ .Values.hostname.grafaServer.name }}
-          image: "{{ .Values.images.grafaServer.repository }}:{{ .Values.images.grafaServer.tag }}"
+        - name: {{ .Values.hostname.grafanaServer.name }}
+          image: "{{ .Values.images.grafanaServer.repository }}:{{ .Values.images.grafanaServer.tag }}"
           ports:
             - containerPort: 3000
           env:
             - name: GF_SECURITY_ADMIN_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.hostname.grafaServer.name }}-secret
+                  name: {{ .Values.hostname.grafanaServer.name }}-secret
                   key: admin-password
           volumeMounts:
-            - name: {{ .Values.hostname.grafaServer.name }}-storage
-              mountPath: /var/lib/grafana
+            - name: {{ .Values.hostname.grafanaServer.name }}-storage
+              mountPath: /var/lib/grafanana
       volumes:
-        - name: {{ .Values.hostname.grafaServer.name }}-storage
+        - name: {{ .Values.hostname.grafanaServer.name }}-storage
           emptyDir: {}
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.hostname.grafaServer.name }}
+  name: {{ .Values.hostname.grafanaServer.name }}
   namespace: {{ .Values.namespace }}
 spec:
   type: NodePort
   selector:
-    app: {{ .Values.hostname.grafaServer.name }}
+    app: {{ .Values.hostname.grafanaServer.name }}
   ports:
     - protocol: TCP
       port: 3000
@@ -51,7 +51,7 @@ spec:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: {{ .Values.hostname.grafaServer.name }}-secret
+  name: {{ .Values.hostname.grafanaServer.name }}-secret
   namespace: {{ .Values.namespace }}
 type: Opaque
 data:
