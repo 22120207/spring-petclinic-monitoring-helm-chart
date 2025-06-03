@@ -54,12 +54,12 @@ data:
         selector = "{app=~\".*\"}"
         stage.json {
           expressions = {
-            level = "level"
+            level = "level",
           }
         }
         stage.labels {
           values = {
-            level = "level"
+            level = "level",
           }
         }
       }
