@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/22120207/spring-petclinic-microservices-monitoring-helm-chart
     targetRevision: HEAD
-    path: spring-petclinic-microservices-monitoring-helm-chart
+    path: spring-petclinic-monitoring-helm-chart
     helm:
       valueFiles:
         - values.yaml
