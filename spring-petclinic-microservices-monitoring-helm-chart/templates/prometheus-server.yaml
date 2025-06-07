@@ -74,10 +74,10 @@ data:
 
     alerting:
       alertmanagers:
-          apiVersion: v2
         - static_configs:
             - targets:
                 - {{ .Values.hostname.alertManager.name }}:9093
+          apiVersion: v2
 
     scrape_configs:
       - job_name: prometheus
