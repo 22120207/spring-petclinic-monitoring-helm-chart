@@ -21,7 +21,7 @@ data:
         from: "tranngocnhannt2004@gmail.com"
         smarthost: smtp.gmail.com:587
         auth_username: "tranngocnhannt2004@gmail.com"
-        auth_password: "{{ env.ALERTMANAGER_PASSWORD }}"
+        auth_password: "lnci zfby anwh ikyd"
         auth_identity: "tranngocnhannt2004@gmail.com"
         require_tls: true
 ---
@@ -73,12 +73,3 @@ spec:
     - protocol: TCP
       port: 9093
       targetPort: 9093
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: {{ .Values.hostname.alertManager.name }}-secret
-  namespace: {{ .Values.namespace }}
-type: Opaque
-stringData:
-  auth_password: lnci zfby anwh ikyd
