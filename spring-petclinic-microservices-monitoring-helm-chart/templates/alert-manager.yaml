@@ -47,12 +47,6 @@ spec:
           - "--config.file=/etc/alertmanager/alertmanager.yml"
         ports:
           - containerPort: 9093
-        env:
-          - name: ALERTMANAGER_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.hostname.alertManager.name }}-secret
-                key: auth_password
         volumeMounts:
           - name: config-volume
             mountPath: /etc/alertmanager
