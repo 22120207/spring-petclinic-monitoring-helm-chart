@@ -1,18 +1,12 @@
 apiVersion: v1
-kind: Namespace
-metadata:
-  name: monitoring
-
----
-apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: alloy-config
-  namespace: monitoring
+  name: {{ .Values.hostname.alloyServer.name }}-configmap
+  namespace: {{ .Values.namespace }}
 data:
   config.alloy: |
     logging {
-      level = "debug"
+      level = "info"
       format = "logfmt"
     }
     discovery.kubernetes "pods" {
@@ -57,10 +51,10 @@ data:
         drop_counter_reason = "too old"
       }
       stage.match {
-        selector = "{instance=~\".*\"}"
+        selector = "{app=~\".*\"}"
         stage.json {
           expressions = {
-            level = "\"level\"",
+            level = "level",
           }
         }
         stage.labels {
@@ -69,72 +63,72 @@ data:
           }
         }
       }
-      stage.label_drop {
-        values = ["service_name"]
-      }
     }
     loki.write "loki" {
       endpoint {
-        url = "http://loki:3100/loki/api/v1/push"
+        url = "http://{{ .Values.hostname.lokiServer.name }}:3100/loki/api/v1/push"
       }
     }
-
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: alloy
-  namespace: monitoring
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: alloy
+  name: {{ .Values.hostname.alloyServer.name }}-clusterrole
 rules:
   - apiGroups: [""]
-    resources: ["pods", "nodes", "namespaces"]
-    verbs: ["get", "list", "watch"]
-  - apiGroups: ["apps"]
-    resources: ["replicasets"]
-    verbs: ["get", "list", "watch"]
+    resources:
+      - nodes
+      - services
+      - pods
+      - pods/log
+    verbs:
+      - get
+      - watch
+      - list
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ .Values.hostname.alloyServer.name }}-serviceaccount
+  namespace: {{ .Values.namespace }}
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: alloy
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: alloy
+  name: {{ .Values.hostname.alloyServer.name }}-clusterrolebinding
 subjects:
   - kind: ServiceAccount
-    name: alloy
-    namespace: monitoring
+    name: {{ .Values.hostname.alloyServer.name }}-serviceaccount
+    namespace: {{ .Values.namespace }}
+roleRef:
+  kind: ClusterRole
+  name: {{ .Values.hostname.alloyServer.name }}-clusterrole
+  apiGroup: rbac.authorization.k8s.io
 
 ---
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: alloy
-  namespace: monitoring
+  name: {{ .Values.hostname.alloyServer.name }}
+  namespace: {{ .Values.namespace }}
 spec:
   selector:
     matchLabels:
-      app: alloy
+      app: {{ .Values.hostname.alloyServer.name }}
   template:
     metadata:
       labels:
-        app: alloy
+        app: {{ .Values.hostname.alloyServer.name }}
     spec:
-      serviceAccountName: alloy
+      serviceAccountName: {{ .Values.hostname.alloyServer.name }}-serviceaccount
       containers:
-        - name: alloy
-          image: grafana/alloy:latest
+        - name: {{ .Values.hostname.alloyServer.name }}
+          image: "{{ .Values.images.alloyServer.repository }}:{{ .Values.images.alloyServer.tag }}"
           args:
             - run
-            - --config
             - /etc/alloy/config.alloy
           volumeMounts:
             - name: config
@@ -147,7 +141,7 @@ spec:
       volumes:
         - name: config
           configMap:
-            name: alloy-config
+            name: {{ .Values.hostname.alloyServer.name }}-configmap
         - name: varlog
           hostPath:
             path: /var/log

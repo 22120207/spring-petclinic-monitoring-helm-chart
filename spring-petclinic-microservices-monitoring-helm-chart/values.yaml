@@ -29,10 +29,19 @@ images:
     repository: registry.caotienminh.software/springcommunity/zipkin-server
     tag: latest
   prometheusServer:
-    repository: registry.caotienminh.software/springcommunity/prometheus-server
+    repository: docker.io/prom/prometheus
     tag: latest
   grafanaServer:
-    repository: registry.caotienminh.software/springcommunity/grafana-server
+    repository: grafana/grafana
+    tag: latest
+  lokiServer:
+    repository: docker.io/grafana/loki
+    tag: 2.9.6
+  alloyServer:
+    repository: grafana/alloy
+    tag: latest
+  alertManager:
+    repository: registry.caotienminh.software/springcommunity/alertanager
     tag: latest
 
 imagePullSecrets:
@@ -67,3 +76,9 @@ hostname:
     name: prometheus-server
   grafanaServer:
     name: grafana-server
+  lokiServer:
+    name: loki-server
+  alloyServer:
+    name: alloy-server
+  alertManager:
+    name: alert-manager
