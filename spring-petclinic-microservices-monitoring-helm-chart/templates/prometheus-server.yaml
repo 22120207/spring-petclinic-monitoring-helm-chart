@@ -77,8 +77,11 @@ data:
         - static_configs:
             - targets:
                 - {{ .Values.hostname.alertManager.name }}:9093
-        - http_config:
+          scheme: http
           api_version: v2
+          timeout: 10s
+          http_config:
+            follow_redirects: true
 
     scrape_configs:
       - job_name: prometheus
