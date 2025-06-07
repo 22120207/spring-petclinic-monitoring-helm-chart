@@ -74,6 +74,7 @@ data:
 
     alerting:
       alertmanagers:
+          apiVersion: v2
         - static_configs:
             - targets:
                 - {{ .Values.hostname.alertManager.name }}:9093
