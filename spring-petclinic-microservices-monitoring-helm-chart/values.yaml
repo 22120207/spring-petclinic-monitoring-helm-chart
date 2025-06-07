@@ -40,6 +40,9 @@ images:
   alloyServer:
     repository: grafana/alloy
     tag: latest
+  alertManager:
+    repository: registry.caotienminh.software/springcommunity/alertanager
+    tag: latest
 
 imagePullSecrets:
   name: regcred
@@ -77,3 +80,5 @@ hostname:
     name: loki-server
   alloyServer:
     name: alloy-server
+  alertManager:
+    name: alert-manager
