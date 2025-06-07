@@ -29,7 +29,7 @@ images:
     repository: registry.caotienminh.software/springcommunity/zipkin-server
     tag: latest
   prometheusServer:
-    repository: registry.caotienminh.software/springcommunity/prometheus-server
+    repository: docker.io/prom/prometheus
     tag: latest
   grafanaServer:
     repository: grafana/grafana
