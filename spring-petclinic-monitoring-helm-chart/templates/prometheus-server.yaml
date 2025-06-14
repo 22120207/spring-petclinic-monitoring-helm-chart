@@ -56,7 +56,7 @@ data:
     - name: error-rules
       rules:
       - alert: HighErrorRate
-        expr: increase(http_server_requests_total{status=~"5.."}[30s]) > 10
+        expr: increase(http_client_requests_seconds_count{http_status_code="500"}[30s]) > 10
         for: 30s
         labels:
           severity: critical
