@@ -9,13 +9,13 @@ images:
     tag: latest
   customersService:
     repository: registry.caotienminh.software/springcommunity/spring-petclinic-customers-service
-    tag: dev
+    tag: monitoring
   vetsService:
     repository: registry.caotienminh.software/springcommunity/spring-petclinic-vets-service
-    tag: dev
+    tag: monitoring
   visitsService:
     repository: registry.caotienminh.software/springcommunity/spring-petclinic-visits-service
-    tag: dev
+    tag: monitoring
   apiGateway: 
     repository: registry.caotienminh.software/springcommunity/spring-petclinic-api-gateway
     tag: latest
